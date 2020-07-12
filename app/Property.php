@@ -14,4 +14,18 @@ class Property extends Model
 		'neighborhood',
 		'city',
 		'state'];
+
+	public function contract()
+    {
+        return $this->hasOne(Contract::class);
+    }
+
+    public function getStatusAttribute()
+    {
+    	if ($this->contract()->count()) {
+    		return'Contratado';
+    	}
+    	return 'Não Contratado';
+    }
+
 }

@@ -4,7 +4,7 @@
 
         <table id="propertyTable" class="table table-bordered">
             <thead>
-            <tr>
+            <tr class="bg-secondary text-white">
                 <th>Código</th>
                 <th>E-mail</th>
                 <th>Endereço</th>
@@ -12,15 +12,15 @@
                 <th>Ações</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="bg-light">
             <tr v-for="property in properties" :key="property.id">
                 <td>{{ property.id }}</td>
                 <td>{{ property.owner_email }}</td>
                 <td>{{ property.street }}, {{ property.number }}, {{property.city}}, {{property.state }}</td>
-                <td></td>
+                <td>{{ property.status }}</td>
                 <td>
                     <div class="btn-group" role="group">
-                        <router-link :to="{name: 'edit', params: { id: property.id }}" class="btn btn-primary">Edit
+                        <router-link :to="{name: 'editProperty', params: { id: property.id }}" class="btn btn-primary">Edit
                         </router-link>
                         <button class="btn btn-danger" @click="deleteProperty(property.id)">Delete</button>
                     </div>

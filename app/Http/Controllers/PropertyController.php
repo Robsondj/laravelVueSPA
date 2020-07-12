@@ -15,9 +15,13 @@ class PropertyController extends Controller
      */
     public function index()
     {
-        $properties = Property::where('active','=',true)->get()->toArray();
-        return array_reverse($properties);
-        // die("passou");
+        $properties = Property::where('active','=',true)->orderBy('id', 'DESC')->get();
+        $arrProperties = array();
+        foreach ($properties as $key => $property) {
+            $arrProperties[$key] = $property->toArray();
+            $arrProperties[$key]['status'] = $property->status;
+        }
+        return $arrProperties;
     }
 
     /**
@@ -28,15 +32,6 @@ class PropertyController extends Controller
      */
     public function store(PropertyValidator $request)
     {
-        /*$property = new Property([
-            'owner_email' => $request->input('owner_email'),
-            'street' => $request->input('street'),
-            'number' => $request->input('number'),
-            'complement' => $request->input('complement'),
-            'neighborhood' => $request->input('neighborhood'),
-            'city' => $request->input('city'),
-            'state' => $request->input('state')
-        ]);*/
         $property = new Property($request->all());
         $property->save();
 
