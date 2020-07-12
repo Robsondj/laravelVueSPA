@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+/*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});*/
+
+Route::get('properties', 'PropertyController@index');
+Route::group(['prefix' => 'property'], function () {
+    Route::post('store', 'PropertyController@store');
+    Route::get('edit/{id}', 'PropertyController@edit');
+    Route::get('states', 'PropertyController@getStates');
+    Route::post('update/{id}', 'PropertyController@update');
+    Route::delete('delete/{id}', 'PropertyController@delete');
 });
