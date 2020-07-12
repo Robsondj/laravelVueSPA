@@ -15,6 +15,9 @@ services:
       - test-mysql-data:/var/lib/mysql
     ports:
       - "33061:3306"
+    networks:
+      dev-network:
+        ipv4_address: 10.5.0.10
     environment:
       - MYSQL_ROOT_PASSWORD=test
       - MYSQL_DATABASE=test
@@ -29,5 +32,16 @@ services:
       - .:/var/www/app
     ports:
       - "8081:8080"
+    networks:
+      dev-network:
+        ipv4_address: 10.5.0.11
     links:
       - mysql
+
+networks: 
+  dev-network:
+    driver: bridge
+    ipam: 
+      config:
+        - subnet: 10.5.0.0/16
+          gateway: 10.5.0.1
