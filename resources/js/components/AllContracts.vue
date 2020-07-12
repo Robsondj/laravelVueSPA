@@ -5,11 +5,11 @@
         <table id="contractTable" class="table table-bordered">
             <thead>
             <tr class="bg-secondary text-white">
-                <th>Código</th>
-                <th>E-mail Contratante</th>
-                <th>Nome Contratante</th>
-                <th>CPF/CNPJ</th>
-                <th>Ações</th>
+                <th class="align-middle">Código <button class="btn btn-secondary" @click="sortId"><i class="fas fa-arrows-alt-v"></i></button></th>
+                <th class="align-middle">E-mail Contratante</th>
+                <th class="align-middle">Nome Contratante</th>
+                <th class="align-middle">CPF/CNPJ</th>
+                <th class="align-middle">Ações</th>
             </tr>
             </thead>
             <tbody class="bg-light">
@@ -35,7 +35,8 @@
     export default {
         data() {
             return {
-                contracts: []
+                contracts: [],
+                sort: 'asc'
             }
         },
         created() {
@@ -53,6 +54,15 @@
                         let i = this.contracts.map(item => item.id).indexOf(id);
                         this.contracts.splice(i, 1)
                     });
+            },
+            sortId() {
+                if (this.sort === 'asc') {
+                    this.contracts.sort((a,b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0)
+                    this.sort = 'desc'
+                } else {
+                    this.contracts.sort((a,b) => b.id < a.id ? -1 : b.id > a.id ? 1 : 0)
+                    this.sort = 'asc'
+                }
             }
         }
     }

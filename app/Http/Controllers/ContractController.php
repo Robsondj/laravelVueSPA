@@ -92,6 +92,24 @@ class ContractController extends Controller
     }
 
     /**
+     * Return the active and not used properties
+     *
+     * @param integer
+     * @return  array
+     */
+    public function getPropertiesEdit($id)
+    {
+        $properties = Property::where('active','=',true)->orWhere('id',$id)->orderBy('id', 'DESC')->get();
+        $arrProperties = array();
+        foreach ($properties as $property) {
+            if (!$property->contract()->count() || $property->id == $id) {
+                $arrProperties[] = $property;
+            }
+        }
+        return $arrProperties;
+    }
+
+    /**
      * Return property by id
      *
      * @param  integer

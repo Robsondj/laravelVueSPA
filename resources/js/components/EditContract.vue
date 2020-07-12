@@ -18,14 +18,14 @@
                     </div>
                     <div class="form-group">
                         <label>Tipo Pessoa</label>
-                        <select class="form-control col-md-4" v-model="contract.person_type" >
+                        <select class="form-control col-md-4" v-model="contract.person_type" @change="setMaskDocument">
                             <option :value="1">Física</option>
                             <option :value="2">Jurídica</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>CPF/CNPJ</label>
-                        <input type="text" class="form-control" v-model="contract.document">
+                        <input type="text" class="form-control" v-model="contract.document" v-mask="documentMask">
                     </div>
                     <div class="form-group">
                         <label>E-mail do contratante</label>
@@ -50,7 +50,8 @@
             return {
                 contract: {},
                 properties: [],
-                errors: []
+                errors: [],
+                documentMask: ''
             }
         },
         created() {
@@ -58,6 +59,8 @@
                 .get(`http://localhost:8081/api/contract/edit/${this.$route.params.id}`)
                 .then((response) => {
                     this.contract = response.data;
+                    this.getProperties(this.contract.property_id)
+                    this.chargeMaskDocument()
                 });
         },
         methods: {
@@ -66,6 +69,9 @@
                 if (!this.contract.property_id) this.errors.push("Propriedade é obrigatório.")
                 if (!this.contract.person_type) this.errors.push("Tipo de Pessoa é obrigatório.")
                 if (!this.contract.document) this.errors.push("CPF/CNPJ é obrigatório.")
+                if (this.contract.document
+                    && this.contract.document.match(/(^\d{3}\.\d{3}\.\d{3}\-\d{2}$)|(^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$)/) === null) 
+                    this.errors.push("CPF/CNPJ deve ser um documento válido.")
                 if (!this.contract.contractor_email) this.errors.push("Email do contratante é obrigatório.")
                 if (this.contract.contractor_email 
                     && this.contract.contractor_email.match(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/) === null) 
@@ -76,7 +82,7 @@
                     this.axios
                         .post(`http://localhost:8081/api/contract/update/${this.$route.params.id}`, this.contract)
                         .then(response => {
-                            this.$router.push({name: 'AllContracts'})
+                            this.$router.push({name: 'allContracts'})
                         })
                         .catch(error => {
                             if (typeof(error.response.data.errors) !== 'undefined') {
@@ -89,24 +95,29 @@
                         .finally(() => this.loading = false)
                 }
             },
-            getProperties() {
-            this.axios
-                .get('http://localhost:8081/api/contract/properties')
-                .then(response => {
-                    this.properties = response.data;
-                });
+            getProperties(id) {
+                this.axios
+                    .get(`http://localhost:8081/api/contract/properties/${id}`)
+                    .then(response => {
+                        this.properties = response.data;
+                    });
             },
-            getPropertiySelected() {
-            this.axios
-                .get(`http://localhost:8081/api/contract/property/${this.contract.property_id}`)
-                .then(response => {
-                    this.properties.push(response.data);
-                });
+            setMaskDocument() {
+                this.contract.document = null
+                if (this.contract.person_type === 1) {
+                    this.documentMask = '###.###.###-##'
+                } else {
+                    this.documentMask = '##.###.###/####-##'
+                }
+            },
+            chargeMaskDocument() {
+                if (this.contract.person_type === 1) {
+                    this.documentMask = '###.###.###-##'
+                } else {
+                    this.documentMask = '##.###.###/####-##'
+                }
             }
-        },
-        mounted() {
-            this.getProperties()
-            this.getPropertiySelected()
+            
         }
     }
 </script>

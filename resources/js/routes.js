@@ -34,7 +34,7 @@ export const routes = [
     },
     {
         name: 'editContract',
-        path: '/edit/:id',
+        path: '/editContract/:id',
         component: EditContract
     }
 ];

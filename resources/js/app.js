@@ -6,7 +6,9 @@ import VueRouter from 'vue-router';
 import VueAxios from 'vue-axios';
 import axios from 'axios';
 import {routes} from './routes';
-import VueMask from 'v-mask'
+import VueMask from 'v-mask';
+import '@fortawesome/fontawesome-free/css/all.css';
+import '@fortawesome/fontawesome-free/js/all.js';
 
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);

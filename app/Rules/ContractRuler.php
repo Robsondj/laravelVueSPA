@@ -26,7 +26,7 @@ class ContractRuler implements Rule
     public function passes($attribute, $value)
     {
         $property = Property::find($value);
-        return !$property->contract()->count();
+        return !$property->contract()->count() || $property->id == $value;
     }
 
     /**

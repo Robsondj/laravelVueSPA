@@ -32,7 +32,7 @@ Route::group(['prefix' => 'contract'], function () {
     Route::post('store', 'ContractController@store');
     Route::get('edit/{id}', 'ContractController@edit');
     Route::get('properties', 'ContractController@getProperties');
-    Route::get('property/{id}', 'ContractController@getPropertiySelected');
+    Route::get('properties/{id}', 'ContractController@getPropertiesEdit');
     Route::post('update/{id}', 'ContractController@update');
     Route::delete('delete/{id}', 'ContractController@delete');
 });
