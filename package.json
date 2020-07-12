@@ -23,6 +23,7 @@
         "vue-template-compiler": "^2.6.11"
     },
     "dependencies": {
+        "v-mask": "^2.2.1",
         "vue-axios": "^2.1.5",
         "vue-router": "^3.3.4"
     }
