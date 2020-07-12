@@ -1,0 +1,5 @@
+FROM ambientum/php:7.3-nginx
+MAINTAINER Robson de Jesus
+COPY . /var/www/app
+WORKDIR /var/www/app
+RUN composer install

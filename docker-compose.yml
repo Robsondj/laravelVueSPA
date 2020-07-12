@@ -26,7 +26,9 @@ services:
 
   # PHP (with Caddy)
   app:
-    image: ambientum/php:7.3-nginx
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     container_name: test-app
     volumes:
       - .:/var/www/app
