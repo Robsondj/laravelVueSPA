@@ -61,7 +61,7 @@
                 this.errors = []
                 if (!this.property.owner_email) this.errors.push("Email é obrigatório.")
                 if (this.property.owner_email 
-                    && this.property.owner_email.match(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/) == null) 
+                    && this.property.owner_email.match(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/) === null) 
                     this.errors.push("Email deve ser válido.")
                 if (!this.property.street) this.errors.push("Rua é obrigatório.")
                 if (!this.property.neighborhood) this.errors.push("Bairro é obrigatório.")
@@ -75,7 +75,6 @@
                             this.$router.push({name: 'home'})
                         })
                         .catch(error => {
-                            console.log(error.response)
                             if (typeof(error.response.data.errors) !== 'undefined') {
                                 let errors = Object.values(error.response.data.errors).map((error) => error)
                                 errors.map((msgerror) => this.errors.push(msgerror[0]))
@@ -90,7 +89,6 @@
             this.axios
                 .get('http://localhost:8081/api/property/states')
                 .then(response => {
-                    console.log(response.data)
                     this.states = response.data;
                 });
             }

@@ -14,7 +14,7 @@
                     </div>
                     <div class="form-group">
                         <label>Número</label>
-                        <input type="text" class="form-control" v-model="property.number">
+                        <input type="number" class="form-control" v-model.number="property.number">
                     </div>
                     <div class="form-group">
                         <label>Complemento</label>
@@ -30,7 +30,9 @@
                     </div>
                     <div class="form-group">
                         <label>Estado</label>
-                        <input type="text" class="form-control" v-model="property.state">
+                        <select class="form-control col-md-4" v-model="property.state">
+                            <option v-for="state in states" :value="state" :selected="state">{{ state }}</option>
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Atualizar</button>
                 </form>
@@ -43,7 +45,9 @@
     export default {
         data() {
             return {
-                property: {}
+                property: {},
+                states: [],
+                errors: []
             }
         },
         created() {
@@ -51,17 +55,46 @@
                 .get(`http://localhost:8081/api/property/edit/${this.$route.params.id}`)
                 .then((response) => {
                     this.property = response.data;
-                    // console.log(response.data);
                 });
         },
         methods: {
             updateProperty() {
-                this.axios
-                    .post(`http://localhost:8081/api/property/update/${this.$route.params.id}`, this.property)
-                    .then((response) => {
-                        this.$router.push({name: 'home'});
-                    });
+                this.errors = []
+                if (!this.property.owner_email) this.errors.push("Email é obrigatório.")
+                if (this.property.owner_email 
+                    && this.property.owner_email.match(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/) === null) 
+                    this.errors.push("Email deve ser válido.")
+                if (!this.property.street) this.errors.push("Rua é obrigatório.")
+                if (!this.property.neighborhood) this.errors.push("Bairro é obrigatório.")
+                if (!this.property.city) this.errors.push("Cidade é obrigatório.")
+                if (!this.property.state) this.errors.push("Estado é obrigatório.")
+
+                if (this.errors.length === 0) {
+                    this.axios
+                        .post(`http://localhost:8081/api/property/update/${this.$route.params.id}`, this.property)
+                        .then((response) => {
+                            this.$router.push({name: 'home'});
+                        })
+                        .catch(error => {
+                            if (typeof(error.response.data.errors) !== 'undefined') {
+                                let errors = Object.values(error.response.data.errors).map((error) => error)
+                                errors.map((msgerror) => this.errors.push(msgerror[0]))
+                            } else {
+                                this.errors.push('Erro ao salvar Imóvel. Contate o suporte')
+                            }
+                        });
+                }
+            },
+            getStates() {
+            this.axios
+                .get('http://localhost:8081/api/property/states')
+                .then(response => {
+                    this.states = response.data;
+                });
             }
+        },
+        mounted() {
+            this.getStates()
         }
     }
 </script>

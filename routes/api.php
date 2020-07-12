@@ -26,3 +26,13 @@ Route::group(['prefix' => 'property'], function () {
     Route::post('update/{id}', 'PropertyController@update');
     Route::delete('delete/{id}', 'PropertyController@delete');
 });
+
+Route::get('contracts', 'ContractController@index');
+Route::group(['prefix' => 'contract'], function () {
+    Route::post('store', 'ContractController@store');
+    Route::get('edit/{id}', 'ContractController@edit');
+    Route::get('properties', 'ContractController@getProperties');
+    Route::get('property/{id}', 'ContractController@getPropertiySelected');
+    Route::post('update/{id}', 'ContractController@update');
+    Route::delete('delete/{id}', 'ContractController@delete');
+});
