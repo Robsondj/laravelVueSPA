@@ -56,8 +56,9 @@ class ContractController extends Controller
     public function update($id, ContractValidator $request)
     {
         $contract = Contract::find($id);
-        $contract->document = $this->removeMask($contract->document);
-        $contract->update($request->all());
+        $arrData = $request->all();
+        $arrData['document'] = $this->removeMask($arrData['document']);
+        $contract->update($arrData);
         return response()->json('Contrato atualizado com sucesso!');
     }
 
@@ -126,8 +127,50 @@ class ContractController extends Controller
      * @param  string
      * @return string
      */
-    public function removeMask($document)
+    private function removeMask($document)
     {
         return str_replace(array('.','-','/'),'', $document);
+    }
+
+    /**
+     * Return the document with the mask
+     *
+     * @param  string
+     * @return string
+     */
+    private function addMask($document) 
+    {
+        return strlen($document) == 11 ? $this->addMaskCpf($document) : $this->addMaskCnpj($document);
+    }
+
+    /**
+     * Return the document with the mask
+     *
+     * @param  string
+     * @return string
+     */
+    private function addMaskCnpj($cnpj) 
+    {
+        $formated  = substr($cnpj,0,2).'.';
+        $formated .= substr($cnpj,2,3).'.';
+        $formated .= substr($cnpj,5,3).'/';
+        $formated .= substr($cnpj,8,4).'-';
+        $formated .= substr($cnpj,12,2);
+        return $formated;
+    }
+    
+    /**
+     * Return the document with the mask
+     *
+     * @param  string
+     * @return string
+     */
+    private function addMaskCpf($cpf) 
+    {
+        $formated  = substr($cpf,0,3).'.';
+        $formated .= substr($cpf,3,3).'.';
+        $formated .= substr($cpf,6,3).'-';
+        $formated .= substr($cpf,9,2);
+        return $formated;
     }
 }

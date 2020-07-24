@@ -12,15 +12,15 @@
                     </p>
                     <div class="form-group">
                         <label>Propriedade</label>
-                        <select class="form-control" v-model="contract.property_id">
-                            <option v-for="property in properties" :value="property.id" :selected="1">
+                        <select id="property_id" class="form-control" v-model="contract.property_id">
+                            <option v-for="property in properties" :value="property.id">
                             Rua {{ property.street }}, Número {{ property.number }}, Complemento {{ property.complement }}, Bairro {{ property.neighborhood }}
                             </option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Tipo Pessoa</label>
-                        <select class="form-control col-md-4" v-model="contract.person_type" @change="setMaskDocument">
+                        <select id="person_id" class="form-control col-md-4" v-model="contract.person_type" @change="setMaskDocument">
                             <option :value="1">Física</option>
                             <option :value="2">Jurídica</option>
                         </select>

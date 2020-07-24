@@ -6706,6 +6706,8 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.documentMask = '##.###.###/####-##';
       }
+
+      console.log(this.documentMask);
     }
   },
   mounted: function mounted() {
@@ -7024,6 +7026,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -26240,6 +26244,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
+                  attrs: { id: "property_id" },
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter
@@ -26261,23 +26266,19 @@ var render = function() {
                   }
                 },
                 _vm._l(_vm.properties, function(property) {
-                  return _c(
-                    "option",
-                    { domProps: { value: property.id, selected: 1 } },
-                    [
-                      _vm._v(
-                        "\n                        Rua " +
-                          _vm._s(property.street) +
-                          ", Número " +
-                          _vm._s(property.number) +
-                          ", Complemento " +
-                          _vm._s(property.complement) +
-                          ", Bairro " +
-                          _vm._s(property.neighborhood) +
-                          "\n                        "
-                      )
-                    ]
-                  )
+                  return _c("option", { domProps: { value: property.id } }, [
+                    _vm._v(
+                      "\n                        Rua " +
+                        _vm._s(property.street) +
+                        ", Número " +
+                        _vm._s(property.number) +
+                        ", Complemento " +
+                        _vm._s(property.complement) +
+                        ", Bairro " +
+                        _vm._s(property.neighborhood) +
+                        "\n                        "
+                    )
+                  ])
                 }),
                 0
               )
@@ -26298,6 +26299,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control col-md-4",
+                  attrs: { id: "person_id" },
                   on: {
                     change: [
                       function($event) {
@@ -27012,7 +27014,7 @@ var render = function() {
                       expression: "contract.property_id"
                     }
                   ],
-                  staticClass: "form-control col-md-4",
+                  staticClass: "form-control",
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter
@@ -27035,7 +27037,17 @@ var render = function() {
                 },
                 _vm._l(_vm.properties, function(property) {
                   return _c("option", { domProps: { value: property.id } }, [
-                    _vm._v(_vm._s(property.street))
+                    _vm._v(
+                      "\n                        Rua " +
+                        _vm._s(property.street) +
+                        ", Número " +
+                        _vm._s(property.number) +
+                        ", Complemento " +
+                        _vm._s(property.complement) +
+                        ", Bairro " +
+                        _vm._s(property.neighborhood) +
+                        "\n                        "
+                    )
                   ])
                 }),
                 0

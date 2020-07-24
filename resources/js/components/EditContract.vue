@@ -12,8 +12,10 @@
                     </p>
                     <div class="form-group">
                         <label>Propriedade</label>
-                        <select class="form-control col-md-4" v-model="contract.property_id">
-                            <option v-for="property in properties" :value="property.id">{{ property.street }}</option>
+                        <select class="form-control" v-model="contract.property_id">
+                            <option v-for="property in properties" :value="property.id">
+                            Rua {{ property.street }}, Número {{ property.number }}, Complemento {{ property.complement }}, Bairro {{ property.neighborhood }}
+                            </option>
                         </select>
                     </div>
                     <div class="form-group">
